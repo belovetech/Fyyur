@@ -7,7 +7,6 @@ from flask_migrate import Migrate
 from flask import Flask
 from email.headerregistry import Address
 from email.policy import default
-import json
 from tokenize import String
 import dateutil.parser
 import babel
@@ -20,7 +19,6 @@ from forms import *
 import sys
 from config import app, db
 from models import Venue, Artist, Show
-import datetime
 from datetime import datetime as date
 
 moment = Moment(app)
