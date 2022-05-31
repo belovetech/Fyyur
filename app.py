@@ -148,12 +148,6 @@ def show_venue(venue_id):
         "upcoming_shows": upcoming_shows,
         "past_shows_count": len(past_shows),
         "upcoming_shows_count": len(upcoming_shows),
-        # "past_shows": [{
-        #   "venue_id": 1,
-        #   "venue_name": "The Musical Hop",
-        #   "venue_image_link": "https://images.unsplash.com/photo-1543900694-133f37abaaa5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=60",
-        #   "start_time": "2019-05-21T21:30:00.000Z"
-        # }],
     }
 
     return render_template('pages/show_venue.html', venue=data)
@@ -305,7 +299,6 @@ def show_artist(artist_id):
         "upcoming_shows": upcoming_shows,
         "past_shows_count": len(past_shows),
         "upcoming_shows_count": len(upcoming_shows),
-
     }
 
     return render_template('pages/show_artist.html', artist=data)
@@ -346,6 +339,7 @@ def edit_artist_submission(artist_id):
         flash('Artist ' + request.form['name'] + ' was successfully edited!')
     except:
         error = True
+        print(sys.exc_info())
         db.session.rollback()
         flash(
             'An error occurred. Artist '
@@ -389,6 +383,7 @@ def edit_venue_submission(venue_id):
         flash('Artist ' + request.form['name'] + ' was successfully edited!')
     except:
         db.session.rollback()
+        print(sys.exc_info())
         flash(
             'An error occurred. Artist '
             + request.form['name']
@@ -439,6 +434,7 @@ def create_artist_submission():
         flash('Artist ' + request.form['name'] + ' was successfully listed!')
     except:
         db.session.rollback()
+        print(sys.exc_info())
         # TODO: on unsuccessful db insert, flash an error instead.
         flash(
             'An error occurred. Artist '
@@ -505,9 +501,8 @@ def create_show_submission():
         venue_id=form.venue_id.data
         start_time=form.start_time.data
         show = Show(artist_id=artist_id, venue_id=venue_id,start_time=start_time)
-        # new_show = Show()
-        # form.populate_obj(new_show)
-        print(form)
+
+        print(form.data)
         db.session.add(show)
         db.session.commit()
     # on successful db insert, flash success
@@ -515,6 +510,7 @@ def create_show_submission():
     except:
         db.session.rollback()
         error = True
+        print(sys.exc_info())
         # TODO: on unsuccessful db insert, flash an error instead.
         flash('An error occurred. Show could not be listed.')
     finally:
