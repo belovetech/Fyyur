@@ -1,5 +1,4 @@
 import os
-from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask import Flask
@@ -18,7 +17,7 @@ DEBUG = True
 #----------------------------------------------------------------------------#
 app = Flask(__name__)
 # TODO IMPLEMENT DATABASE URL
-SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:Beloved0211@localhost:5432/fyyur'
+SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:{password}@localhost:5432/fyyur'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 app.config.from_object('config')
 db = SQLAlchemy(app)
