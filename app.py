@@ -106,14 +106,13 @@ def show_venue(venue_id):
     # TODO: replace with real venue data from the venues table, using venue_id
     # venue = Venue.query.filter_by(id=venue_id).first()
     venue = Venue.query.get_or_404(venue_id)
+
     num_shows = Show.query.filter_by(venue_id=venue.id).all()
     upcoming_shows = []
     past_shows = []
 
     for show in num_shows:
-        print(show.artist_id)
         artist = Artist.query.get(show.artist_id)
-        print(artist)
         show_data = {
             'venue_id': show.artist_id,
             'venue_name': artist.name,
@@ -179,6 +178,7 @@ def create_venue_submission():
         # )
         new_venue = Venue()
         form.populate_obj(new_venue)
+        
         db.session.add(new_venue)
         db.session.commit()
         # on successful db insert, flash success
@@ -265,7 +265,6 @@ def show_artist(artist_id):
 
     for show in num_shows:
         venue = Venue.query.get(show.venue_id)
-        print(venue)
         show_data = {
             'venue_id': show.venue_id,
             'venue_name': venue.name,
@@ -292,14 +291,19 @@ def show_artist(artist_id):
         "past_shows": past_shows,
         "upcoming_shows": upcoming_shows,
         "past_shows_count": len(past_shows),
-        "upcoming_shows_count": len(upcoming_shows),
+        "upcoming_shows_count": len(upcoming_shows)
+        
+        # "past_shows": artist.past_shows(),
+        # "upcoming_shows": artist.upcoming_shows(),
+        # "past_shows_count": artist.num_past_show(),
+        # "upcoming_shows_count": artist.num_upcoming_shows()
     }
 
     return render_template('pages/show_artist.html', artist=data)
 
+
 #  Update
 #  ----------------------------------------------------------------
-
 
 @app.route('/artists/<int:artist_id>/edit', methods=['GET'])
 def edit_artist(artist_id):
@@ -388,9 +392,9 @@ def edit_venue_submission(venue_id):
 
     return redirect(url_for('show_venue', venue_id=venue_id))
 
+
 #  Create Artist
 #  ----------------------------------------------------------------
-
 
 @app.route('/artists/create', methods=['GET'])
 def create_artist_form():
@@ -402,10 +406,8 @@ def create_artist_form():
 def create_artist_submission():
     # called upon submitting the new artist listing form
     # TODO: insert form data as a new Venue record in the db, instead
-
     try:
         form = ArtistForm(request.form)
-
     # TODO: modify data to be the data object returned from db insertion
         # new_artist = Artist(
         #   name = form.name.data,
@@ -496,7 +498,6 @@ def create_show_submission():
         start_time=form.start_time.data
         show = Show(artist_id=artist_id, venue_id=venue_id,start_time=start_time)
 
-        print(form.data)
         db.session.add(show)
         db.session.commit()
     # on successful db insert, flash success
