@@ -4,6 +4,7 @@ from flask_migrate import Migrate
 from flask import Flask
 
 
+
 SECRET_KEY = os.urandom(32)
 # Grabs the folder where the script runs.
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -20,6 +21,7 @@ app = Flask(__name__)
 SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:Beloved0211@localhost:5432/fyyur'
 # SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:{password}@localhost:5432/fyyur'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_ECHO = True
 app.config.from_object('config')
 db = SQLAlchemy(app)
 
